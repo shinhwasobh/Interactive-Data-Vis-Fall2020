@@ -3,6 +3,7 @@ d3.csv("../../data/TFR_Korea.csv").then(data => {
 
     const table = d3.selectAll("#cities");  
     const thead = table.append("thead");
+    
     thead
         .append("tr")
         .append("th")
