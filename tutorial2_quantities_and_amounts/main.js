@@ -1,10 +1,10 @@
-d3.csv("../data/squirrelActivities.csv").then
+d3.csv("../data/Fruit.csv").then
 (data => {
     const svgWidth = 500
     const svgHeight = 500
 
-    // console.log(data)
-    // console.log(data.map(d => d.activity))
+    console.log(data)
+    console.log(data.map(d => d.activity))
 
     const xScale = d3.scaleBand()
         .domain(data.map(d => d.activity))
