@@ -7,24 +7,27 @@ d3.csv("../data/Fruit.csv", d3.autoType).then
     const width = window.innerWidth * 0.8, 
         height = window.innerHeight / 2,
         paddingInner = 0.1,
-        margin = {top: 20, bottom: 20, left: 250, right: 10};
+        margin = {top: 20, bottom: 20, left: 250, right: 10},
+        colors = ["blue", "red", "yellow", "purple", "orange", "darkgreen", "pink", "lightgreen", "darkgreen", "beige", "yellow"];
 
     const xScale = d3.scaleBand()
         .domain(data.map(d => d.Fruits))
         .range([margin.left, width - margin.right])
         .paddingInner(paddingInner);
-    
-    //console.log(xScale('Apple'), xScale.bandwidth())
 
     const yScale = d3.scaleLinear()
         .domain([0, d3.max(data.map(d => d.Sales_qty))])
         .range([margin.bottom, height - margin.top]);
+    
+    const mycolor = d3.scaleOrdinal()
+        .domain(data)
+        .range(colors);
         
     const svg = d3.select("#my-svg")
         .append("svg")
         .attr("width", width)
         .attr("height", height);
-
+        
     const rect = svg.selectAll("rect")
         .data(data)
         .join("rect")
@@ -32,8 +35,9 @@ d3.csv("../data/Fruit.csv", d3.autoType).then
         .attr("x", d => xScale(d.Fruits))
         .attr("width", xScale.bandwidth())
         .attr("height", d => height - margin.bottom)
-        .attr("fill", "skyblue");
-
+        .style("fill", function(d){return mycolor(d.Fruits);
+        });
+    
     const text = svg.selectAll("text")
         .data(data)
         .join("text")
