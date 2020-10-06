@@ -14,7 +14,7 @@ let state = {
   selectedParty: "All",
 };
 
-d3.csv("../../data/TRI_2018_US.csv", d3.autotype).then(raw_data => {
+d3.csv("../../tutorial3_distributions/TRI_2018_US.csv", d3.autotype).then(raw_data => {
   state.data = raw_data;
   console.log(state.data)
   init();
@@ -23,7 +23,7 @@ d3.csv("../../data/TRI_2018_US.csv", d3.autotype).then(raw_data => {
 function init() {
   xScale = d3.scaleLinear()
             .domain(d3.extent(state.data, d => d.TRI))
-            .range([margin.left + 100, width - margin.right]);
+            .range([margin.right + 120, width - margin.right]);
             
   yScale = d3.scaleLinear()
             .domain(d3.extent(state.data, d => d.CancerDeath))
