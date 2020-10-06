@@ -2,7 +2,7 @@
 
 const width = window.innerWidth * 0.9,
       height = window.innerHeight / 1.8,
-      margin = {top: 60, bottom: 20, right: 80, left: 40},
+      margin = {top: 60, bottom: 20, right: 80, left: 50},
       radius = 5;
 
 let svg;
@@ -27,7 +27,7 @@ function init() {
             
   yScale = d3.scaleLinear()
             .domain(d3.extent(state.data, d => d.CancerDeath))
-            .range([height, margin.top]);
+            .range([height + 100, margin.top]);
 
   const xAxis = d3.axisTop(xScale);
   const yAxis = d3.axisLeft(yScale);
@@ -64,7 +64,7 @@ function init() {
           
             svg.append("g")
               .attr("class", "axis y-axis")
-              .attr("transform", "translate(50, 50)")
+              .attr("transform", "translate(50, 0)")
               .call(yAxis)
               
             svg.append("text")
