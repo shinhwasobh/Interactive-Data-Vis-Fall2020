@@ -14,7 +14,7 @@ let state = {
   selectedParty: "All",
 };
 
-d3.csv("../../tutorial3_distributions/TRI_2018_US.csv", d3.autotype).then(raw_data => {
+d3.csv("../../data/TRI_2018_US.csv", d3.autotype).then(raw_data => {
   state.data = raw_data;
   console.log(state.data)
   init();
