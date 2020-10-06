@@ -1,5 +1,3 @@
-'use strict';
-
 const width = window.innerWidth * 0.9,
       height = window.innerHeight / 1.8,
       margin = {top: 60, bottom: 20, right: 80, left: 40},
