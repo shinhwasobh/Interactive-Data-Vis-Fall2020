@@ -108,6 +108,7 @@ function init() {
                           
                             update => update.call(update => 
                               update.attr("r", 12)
+                                    .data(filteredData, d => d.State)
                                     .transition()
                                     .duration(100)
                                     .transition()
