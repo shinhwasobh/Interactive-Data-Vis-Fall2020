@@ -1,7 +1,7 @@
 'use strict';
 const width = window.innerwidth * 0.8,
     height = window.innerheight * 0.8,
-    margin = {top: 20, bottom: 40, right: 30, left: 30}
+    margin = {top: 20, bottom: 40, right: 30, left: 30},
     radius = 4;
 
 let svg;
@@ -28,12 +28,12 @@ d3.csv("../data/ELA_Queens.csv", d => ({
 function init() {
   xScale = d3
     .scaleTime()
-    .domain(d3.extent(state.data, d = d.year))
+    .domain(d3.extent(state.data, d => d.year))
     .range([margin.left, width-margin.right]);
 
   yScale = d3
     .scaleLinear()
-    .domain(d3.extent(state.data, d = d.avg_score))
+    .domain(d3.extent(state.data, d => d.avg_score))
     .range([height - margin.bottom, margin.top]);
 
   const xAxis = d3.axisBottom(xScale);
@@ -43,7 +43,18 @@ function init() {
   const selectElement = d3.select("#dropdown")
                           .on("change", function(){
                             console.log("new selected school is", this.value);
-                            
-                          }) 
+                            state.selectedSchool = this.value;
+                            draw();
+                          });
+   
+  selectElement.selectAll("option")
+              .data([
+                "Select a school",
+                ...Array.from(new Set(state.data.map(d => d.school)))
+              ])
+              .join("option")
+              .attr("value", d => d)
+              .text(d => d);
+  selectElement.property("value", "Select a school");
 
 }
