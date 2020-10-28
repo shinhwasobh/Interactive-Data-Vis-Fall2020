@@ -1,6 +1,6 @@
 'use strict';
-const width = window.innerwidth * 0.8,
-    height = window.innerheight * 0.8,
+const width = window.innerWidth * 0.8,
+    height = window.innerHeight * 0.8,
     margin = {top: 20, bottom: 40, right: 30, left: 30},
     radius = 4;
 
@@ -60,4 +60,38 @@ function init() {
   //???            
   selectElement.property("value", "Select a school");
 
- 
+  svg = d3.select("#d3container")
+          .append("svg")
+          .attr("width", window.innerWidth * 0.8)
+          .attr("height", window.innerHeight * 0.8);
+debugger;
+  svg.append("g")
+      .attr("class", "axis x-axis")
+      .attr("transform", `translate(0, ${height - margin.bottom})`)
+      .call(xAxis)
+      .append("text")
+      .attr("class", "axis-label")
+      .attr("x", "50%")
+      .attr("y", "3em")
+      .text("Year");
+
+  svg.append("g")
+      .attr("class", "axis y-axis")
+      .attr("transform", `translate(${margin.left},0)`)
+      .call(yAxis)
+      .append("text")
+      .attr("class", "axis-label")
+      .attr("y", "50%")
+      .attr("dx", "-3em")
+      .attr("writing-mode", "vertical-rl")
+      .text("ELA Average Score");
+
+  draw();
+}
+
+function draw() {
+  let filteredData = [];
+  if (state.selectedSchool !== null) {
+    filteredData = state.data.filter
+  }
+}
