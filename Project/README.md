@@ -14,4 +14,4 @@ This data will be presented with the following forms of exploratory visualizatio
 
 These are the sketches of how these visualiztions would look and interact.
 
-![sketches](https://https://github.com/shinhwasobh/Interactive-Data-Vis-Fall2020/blob/master/Project/Sketches_exploratory.png)
+![sketches](https://github.com/shinhwasobh/Interactive-Data-Vis-Fall2020/blob/master/Project/Sketches_exploratory.png)
