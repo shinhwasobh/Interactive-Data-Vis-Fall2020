@@ -8,6 +8,7 @@ let svg;
 let xScale;
 let yScale;
 let yAxis;
+let xAxis;
 
 let state = {
   data: [],
@@ -42,6 +43,7 @@ function init() {
 //UI Element Setup
   const selectElement = d3.select("#dropdown")
                           .on("change", function(){
+                            debugger;
                             console.log("new selected school is", this.value);
                             state.selectedSchool = this.value;
                             draw();
@@ -55,6 +57,7 @@ function init() {
               .join("option")
               .attr("value", d => d)
               .text(d => d);
+  //???            
   selectElement.property("value", "Select a school");
 
-}
+ 
