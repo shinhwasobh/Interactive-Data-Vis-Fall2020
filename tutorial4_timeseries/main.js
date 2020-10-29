@@ -40,7 +40,7 @@ function init() {
     let aaa = d3.extent(state.data, d => d.score);
     console.log('aaa', aaa);
   const xAxis = d3.axisBottom(xScale);
-        yAxis = d3.axisLeft(yScale).tickFormat();
+        yAxis = d3.axisLeft(yScale);
 
 //UI Element Setup
   const selectElement = d3.select("#dropdown")
@@ -64,9 +64,9 @@ function init() {
 
   svg = d3.select("#d3container")
           .append("svg")
-          .attr("width", window.innerWidth * 0.8)
-          .attr("height", window.innerHeight * 0.8);
-debugger;
+          .attr("width", width)
+          .attr("height", height);
+
   svg.append("g")
       .attr("class", "axis x-axis")
       .attr("transform", `translate(0, ${height - margin.bottom})`)
@@ -94,6 +94,17 @@ debugger;
 function draw() {
   let filteredData = [];
   if (state.selectedSchool !== null) {
-    filteredData = state.data.filter
+    filteredData = state.data.filter(d => d.school === state.selectedSchool);
   }
+  
+  yScale.domain([0, d3.max(filteredData, d => d.score)]);
+  let bbb = d3.max(filteredData, d => d.score); 
+  console.log(d3.max('bbb', bbb);
+
+  d3.select("g.y-axis")
+    .transition()
+    .duration(1000)
+    .call(yAxis.scale(yScale));
+
+
 }
