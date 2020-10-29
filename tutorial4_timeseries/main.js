@@ -99,12 +99,14 @@ function draw() {
   
   yScale.domain([0, d3.max(filteredData, d => d.score)]);
   let bbb = d3.max(filteredData, d => d.score); 
-  console.log(d3.max('bbb', bbb);
-
+  console.log('bbb', bbb);
+  debugger;
   d3.select("g.y-axis")
     .transition()
     .duration(1000)
     .call(yAxis.scale(yScale));
+
+  
 
 
 }
