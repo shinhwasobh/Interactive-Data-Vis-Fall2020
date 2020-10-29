@@ -34,10 +34,10 @@ function init() {
 
   yScale = d3
     .scaleLinear()
-    .domain(d3.extent(state.data, d => d.avg_score))
+    .domain(d3.extent(state.data, d => d.score))
     .range([height - margin.bottom, margin.top]);
-
-    let aaa = d3.extent(state.data, d => d.avg_score);
+    
+    let aaa = d3.extent(state.data, d => d.score);
     console.log('aaa', aaa);
   const xAxis = d3.axisBottom(xScale);
         yAxis = d3.axisLeft(yScale).tickFormat();
