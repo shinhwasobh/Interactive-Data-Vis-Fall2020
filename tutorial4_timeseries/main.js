@@ -107,6 +107,38 @@ function draw() {
     .call(yAxis.scale(yScale));
 
   
+  const lineFunc = d3.line()
+                    .x(d => xScale(d.year))
+                    .y(d => yScale(d.score));
+
+  const dot = svg.selectAll(".dot")
+                .data(filteredData, d => d.year)
+                .join(enter => enter.append("circle")
+                                    .attr("class", "dot")
+                                    .attr("r", radius)
+                                    .attr("cy", height - margin.bottom)
+                                    .attr("cx", d => xScale(d.year)),
+                      update => update,
+                      exit => exit.call(
+                        exit.transition()
+                            .delay(d => d.year)
+                            .duration(1000)
+                            .attr("cy", margin.top)
+                            .remove()
+                      ))
+                .call(selection => selection.transition()
+                                            .duration(1000)
+                                            .attr("cy", d => yScale(d.score))
+                                            );
+  const line = svg.selectAll("path.trend")
+                  .data([filteredData])
+                  .join(enter => enter.append("path")
+                                      .attr("class", "trend")
+                                      .attr("opacity", 10),
+                        update => update,
+                        exit => exit.remove()
+                        )
+                  .call(selection => selection)
 
 
 }
