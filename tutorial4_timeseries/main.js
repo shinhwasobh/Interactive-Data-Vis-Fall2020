@@ -125,7 +125,8 @@ function draw() {
                             .duration(1000)
                             .attr("cy", margin.top)
                             .remove()
-                      ))
+                                        )
+                      )
                 .call(selection => selection.transition()
                                             .duration(1000)
                                             .attr("cy", d => yScale(d.score))
@@ -138,7 +139,9 @@ function draw() {
                         update => update,
                         exit => exit.remove()
                         )
-                  .call(selection => selection)
-
-
+                  .call(selection => selection.transition()
+                                              .duration(1000)
+                                              .attr("opacity", 1)
+                                              .attr("d", d => lineFunc(d))
+                                              );
 }
