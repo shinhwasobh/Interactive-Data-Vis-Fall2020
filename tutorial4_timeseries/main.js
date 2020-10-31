@@ -98,8 +98,8 @@ function draw() {
   }
   
   yScale.domain([0, d3.max(filteredData, d => d.score)]);
-  let bbb = d3.max(filteredData, d => d.score); 
-  console.log('bbb', bbb);
+  //let bbb = d3.max(filteredData, d => d.score); 
+  //console.log('bbb', bbb);
   debugger;
   d3.select("g.y-axis")
     .transition()
@@ -119,14 +119,14 @@ function draw() {
                                     .attr("cy", height - margin.bottom)
                                     .attr("cx", d => xScale(d.year)),
                       update => update,
-                      exit => exit.call(
-                        exit.transition()
-                            .delay(d => d.year)
-                            .duration(1000)
-                            .attr("cy", margin.top)
-                            .remove()
+                      exit => exit.call(exit => 
+                                exit.transition()
+                                    .delay(d => d.year)
+                                    .duration(1000)
+                                    .attr("cy", margin.top)
+                                    .remove()
                                         )
-                      )
+                        )   
                 .call(selection => selection.transition()
                                             .duration(1000)
                                             .attr("cy", d => yScale(d.score))
