@@ -24,6 +24,28 @@ Promise.all([d3.json("../data/counties_ny.geojson"),
           init();
         });
 
+function init() {
+  const projection = d3.geoAlbersUsa().fitSize([width, height], state.geojson);
+  const path = d3.geoPath()
+                .projection(projection);
+
+  svg = d3.select("#d3container")
+          .append("svg")
+          .attr("width", width)
+          .attr("height", height);
+
+  svg.selectAll(".state")
+    .data(state.geojson.features)
+    .join("path")
+    .attr("d", path)
+    .attr("class", "county")
+    .attr("fill", "transparent")
+    .on("mouseover", d => {
+      state.hover["county"] = d.properties.county;
+      draw();
+    });
+}
+
 
 
 
