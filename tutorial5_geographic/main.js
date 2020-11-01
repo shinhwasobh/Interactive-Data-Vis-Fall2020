@@ -9,9 +9,9 @@ let svg;
 let state = {
   geojson: null,
   tfr: null,
-  hover: {longitude: null,
-          latitude: null,
-        county: null},
+  hover: {long: null,
+          lat: null,
+        county: null}
 };
 debugger;
 Promise.all([d3.json("../data/counties_ny.geojson"),
@@ -34,111 +34,80 @@ function init() {
           .attr("width", width)
           .attr("height", height);
 
-  svg.selectAll(".county")
+  svg.selectAll(".state")
     .data(state.geojson.features)
     .join("path")
     .attr("d", path)
     .attr("class", "county")
-    .attr("fill", "skyblue")
+    .attr("fill", "transparent")
     .on("mouseover", d => {
       state.hover["county"] = d.properties.county;
-      //console.log("data", tfr)
+      console.log("data: ", state.geojson.features);
+    // .on("mouseover", function(d) {
+    //   d3.select(this).classed("selected", true)
+    // })
+    // .on("mouseout", function(d) {
+    //   d3.select(this).classed("selected", false)
+    // })
+     
+      // //console.log("data", tfr)
       //console.log("data", d.properties.county);
       draw();
     });
+    
 
-  const myHome = { longitude: -73.882876, latitude: 40.755729 };
+  const myHome = { long: -73.882876, lat: 40.755729 };
   svg.selectAll("circle")
     .data([myHome])
     .join("circle")
     .attr("r", 10)
     .attr("fill", "pink")
     .attr("transform", d => {
-      const [x,y] = projection([d.longitude, d.latitude]);
+      const [x,y] = projection([d.long, d.lat]);
       return `translate(${x}, ${y})`;
     });
+
+  svg.selectAll("circle")
+    .data(state.tfr.release)
+    .join(enter => 
+      enter.append("circle")
+          .attr("fill","skyblue")
+          .style("opacity", 0.1)
+          .style("stroke", "blue")
+          .attr("r", 3)
+          .attr("cx", function(d) {return projection(d.long)[0]})
+          .attr("cy", function(d) {return projection(d.lat)[1]})
+          .call(enter => enter),
+          update => update.call(update => update),
+          exit => exit.call(exit => exit)
+          .remove()
+          
+    .on("mouseover", function(d) {
+      d3.select(this).classed("active", true)
+    })
+    .on("mouseout", function(d) {
+      d3.select(this).classed("active", false)
+    }),
 
   svg.on("mousemove", () => {
     const [mx, my] = d3.mouse(svg.node());
     const proj = projection.invert([mx, my]);
-    state.hover["longitude"] = proj[0];
-    state.hover["latitude"] = proj[1];
+    state.hover["long"] = proj[0];
+    state.hover["lat"] = proj[1];
     draw();
-  });
+  }));
   draw();
   }
 
 function draw() {
   hoverData = Object.entries(state.hover);
+  
   d3.select("#hover-content")
     .selectAll("div.row")
     .data(hoverData)
     .join("div")
     .attr("class", "row")
-    .html(d => d[1] ? `${d[0]},${d[1]}` : null);
+    .html(d => d[1] ? `${d[0]}: ${d[1]}` : null);
   
 }
 
-
-
-
-
-
-// /**
-//  * CONSTANTS AND GLOBALS
-//  * */
-// const width = window.innerWidth * 0.9,
-//   height = window.innerHeight * 0.7,
-//   margin = { top: 20, bottom: 50, left: 60, right: 40 };
-
-// /** these variables allow us to access anything we manipulate in
-//  * init() but need access to in draw().
-//  * All these variables are empty before we assign something to them.*/
-// let svg;
-
-// /**
-//  * APPLICATION STATE
-//  * */
-// let state = {
-//   // + SET UP STATE
-// };
-
-// /**
-//  * LOAD DATA
-//  * Using a Promise.all([]), we can load more than one dataset at a time
-//  * */
-// Promise.all([
-//   d3.json("PATH_TO_YOUR_GEOJSON"),
-//   d3.csv("PATH_TO_ANOTHER_DATASET", d3.autoType),
-// ]).then(([geojson, otherData]) => {
-//   // + SET STATE WITH DATA
-//   console.log("state: ", state);
-//   init();
-// });
-
-// /**
-//  * INITIALIZING FUNCTION
-//  * this will be run *one time* when the data finishes loading in
-//  * */
-// function init() {
-//   // create an svg element in our main `d3-container` element
-//   svg = d3
-//     .select("#d3-container")
-//     .append("svg")
-//     .attr("width", width)
-//     .attr("height", height);
-
-//   // + SET UP PROJECTION
-//   // + SET UP GEOPATH
-
-//   // + DRAW BASE MAP PATH
-//   // + ADD EVENT LISTENERS (if you want)
-
-//   draw(); // calls the draw function
-// }
-
-// /**
-//  * DRAW FUNCTION
-//  * we call this everytime there is an update to the data/state
-//  * */
-// function draw() {}
