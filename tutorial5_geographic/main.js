@@ -8,19 +8,19 @@ let svg;
 
 let state = {
   geojson: null,
-  tfr: null,
+  release: null,
   hover: {longitude: null,
           latitude: null,
-        state: null},
+        county: null},
 };
 debugger;
 Promise.all([d3.json("../data/counties_ny.geojson"),
             d3.csv("../data/TFR_NY.csv", d3.autoType),
-]).then(([geojson, tfr]) => {
+]).then(([geojson, release]) => {
           state.geojson = geojson;
-          state.tfr = tfr;
+          state.release = release;
           console.log("state: ", state.geojson);
-          console.log("state: ", state.tfr)
+          console.log("state: ", state.release)
           init();
         });
 
@@ -34,15 +34,16 @@ function init() {
           .attr("width", width)
           .attr("height", height);
 
-  svg.selectAll(".state")
+  svg.selectAll(".county")
     .data(state.geojson.features)
     .join("path")
     .attr("d", path)
     .attr("class", "county")
-    .attr("fill", "transparent")
+    .attr("fill", "skyblue")
     .on("mouseover", d => {
-      state.hover["county"] = d.properties.county;
-      console.log("data", state.geojson.features);
+      state.hover["release"] = d.release;
+      console.log("data", state.geojson.release)
+      console.log("data", d.properties.county);
       draw();
     });
 
@@ -56,8 +57,6 @@ function init() {
       const [x,y] = projection([d.longitude, d.latitude]);
       return `translate(${x}, ${y})`;
     });
-
-
   }
 
 function draw() {
