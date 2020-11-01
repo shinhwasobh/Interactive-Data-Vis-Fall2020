@@ -42,9 +42,34 @@ function init() {
     .attr("fill", "transparent")
     .on("mouseover", d => {
       state.hover["county"] = d.properties.county;
+      console.log("data", state.geojson.features);
       draw();
     });
+
+  const myHome = { longitude: -73.882876, latitude: 40.755729 };
+  svg.selectAll("circle")
+    .data([myHome])
+    .join("circle")
+    .attr("r", 10)
+    .attr("fill", "pink")
+    .attr("transform", d => {
+      const [x,y] = projection([d.longitude, d.latitude]);
+      return `translate(${x}, ${y})`;
+    });
+
+
+  }
+
+function draw() {
+  hoverData = Object.entries(state.hover);
+  d3.select("#hover-content")
+    .selectAll("div.row")
+    .join("div")
+    .attr("class", "row")
+    .html(d => d[1] ? `${d[0]}: ${d[1]}` : null);
+  
 }
+
 
 
 
