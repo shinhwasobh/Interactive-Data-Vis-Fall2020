@@ -1,5 +1,5 @@
 'use strict';
-const width = window.innerWidth * 0.8,
+const width = window.innerWidth * 0.3,
     height = window.innerHeight * 0.8,
     margin = {top: 20, bottom: 40, right: 30, left: 30},
     radius = 4;
@@ -9,6 +9,7 @@ let xScale;
 let yScale;
 let yAxis;
 let xAxis;
+let line;
 
 let state = {
   data: [],
@@ -45,7 +46,7 @@ function init() {
 //UI Element Setup
   const selectElement = d3.select("#dropdown")
                           .on("change", function(){
-                            debugger;
+                            //debugger;
                             console.log("new selected school is", this.value);
                             state.selectedSchool = this.value;
                             draw();
@@ -100,7 +101,7 @@ function draw() {
   yScale.domain([0, d3.max(filteredData, d => d.score)]);
   //let bbb = d3.max(filteredData, d => d.score); 
   //console.log('bbb', bbb);
-  debugger;
+  //debugger;
   d3.select("g.y-axis")
     .transition()
     .duration(1000)
@@ -111,37 +112,44 @@ function draw() {
                     .x(d => xScale(d.year))
                     .y(d => yScale(d.score));
 
-  const dot = svg.selectAll(".dot")
-                .data(filteredData, d => d.year)
-                .join(enter => enter.append("circle")
-                                    .attr("class", "dot")
-                                    .attr("r", radius)
-                                    .attr("cy", height - margin.bottom)
-                                    .attr("cx", d => xScale(d.year)),
-                      update => update,
-                      exit => exit.call(exit => 
-                                exit.transition()
-                                    .delay(d => d.year)
-                                    .duration(1000)
-                                    .attr("cy", margin.top)
-                                    .remove()
-                                        )
-                        )   
-                .call(selection => selection.transition()
-                                            .duration(1000)
-                                            .attr("cy", d => yScale(d.score))
-                                            );
+  // const dot = svg.selectAll(".dot")
+  //               .data(filteredData, d => d.year)
+  //               .join(enter => enter.append("circle")
+  //                                   .attr("fill", "none")
+  //                                   .attr("class", "dot")
+  //                                   .attr("r", radius)
+  //                                   .attr("cy", height - margin.bottom)
+  //                                   .attr("cx", d => xScale(d.year)),
+  //                     update => update,
+  //                     exit => exit.call(exit => 
+  //                               exit.transition()
+  //                                   .delay(d => d.year)
+  //                                   .duration(1000)
+  //                                   .attr("cy", margin.top)
+  //                                   .remove()
+  //                                       )
+  //                       )   
+  //               .call(selection => selection.transition()
+  //                                           .duration(1000)
+  //                                           .attr("cy", d => yScale(d.score))
+  //                                           );
   const line = svg.selectAll("path.trend")
                   .data([filteredData])
                   .join(enter => enter.append("path")
+                                      .attr("fill", "none")
+                                      .attr("stroke", "steelblue")
+                                      .attr("stroke-width", 3)
+                                      .attr("stroke-linejoin", "round")
+                                      .attr("stroke-linecap", "round")
                                       .attr("class", "trend")
-                                      .attr("opacity", 10),
+                                      .attr("opacity", 0)
+                                      ,
                         update => update,
                         exit => exit.remove()
                         )
                   .call(selection => selection.transition()
                                               .duration(1000)
-                                              .attr("opacity", 1)
+                                              .attr("opacity", 100)
                                               .attr("d", d => lineFunc(d))
                                               );
 }
