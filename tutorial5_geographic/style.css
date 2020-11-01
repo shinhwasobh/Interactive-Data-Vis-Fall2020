@@ -8,6 +8,6 @@ body {
     height: 50px;
 }
 
-path.state {
-    stroke: brown;
+path.county {
+    stroke: pink;
 }
