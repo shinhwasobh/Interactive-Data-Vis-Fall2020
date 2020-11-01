@@ -13,15 +13,16 @@ let state = {
           latitude: null,
         state: null},
 };
-
-Promise.all([d3.json("../data/ny.json"),
-            d3.csv("../data/TFR_NY.csv", d3.autoType)])
-        .then([geojson, tfr]) => {
+debugger;
+Promise.all([d3.json("../data/counties_ny.geojson"),
+            d3.csv("../data/TFR_NY.csv", d3.autoType),
+]).then(([geojson, tfr]) => {
           state.geojson = geojson;
           state.tfr = tfr;
-          console.log("state: ", state);
+          console.log("state: ", state.geojson);
+          console.log("state: ", state.tfr)
           init();
-        }
+        });
 
 
 
