@@ -1,4 +1,4 @@
-﻿DBN,School,Grade,Year,Category,ELA Mean Scale Score,Chronic Absence,Economic Need Index,City
+﻿DBN,school,grade,year,category,ELA,absence,poverty,city
 01M015,P.S. 015 Roberto Clemente,All Grades,2018,All Students,610,24.2,0.8896,MANHATTAN
 01M019,P.S. 019 Asher Levy,All Grades,2018,All Students,604,32.8,0.6786,MANHATTAN
 01M020,P.S. 020 Anna Silver,All Grades,2018,All Students,596,31.3,0.8000,MANHATTAN
