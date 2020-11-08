@@ -2,15 +2,10 @@
 
 const width = window.innerWidth * 0.8,
     height = window.innerHeight * 0.8,
-    margin = {top: 50, bottom: 30, right: 30, left: 20},
-    radius = 4;
+    margin = {top: 50, bottom: 30, right: 40, left: 30},
+    radius = 6;
 
-let svg = d3.select("#d3container")
-            .append("svg")
-            .attr("width", width)
-            .attr("height", height)
-            .attr("transform", 'translate(20, 60)');
-
+let svg;
 let xScale;
 let yScale;
 
@@ -31,10 +26,10 @@ debugger;
 function init() {
     xScale = d3.scaleLinear()
             .domain(d3.extent(state.data, d => d.absence)).nice()
-            .range([margin.right, width - margin.left]);
+            .range([margin.left, width - margin.right]);
     yScale = d3.scaleLinear()
             .domain(d3.extent(state.data, d => d.poverty)).nice()
-            .range([, margin.top]);
+            .range([height - margin.bottom, margin.top]);
 
     const xAxis = d3.axisTop(xScale);
     const yAxis = d3.axisLeft(yScale);
@@ -49,7 +44,13 @@ function init() {
                     .join("option")
                     .attr("value", function(d) {return d;})
                     .text(d => d);
-
+        
+        svg = d3.select("#d3container")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("transform", 'translate(0, ${height - margin.bottom})');
+    
         svg.append("g")
             .attr("class", "axis x-axis")
             .call(xAxis);
@@ -60,7 +61,7 @@ function init() {
 
         svg.append("text")
             .attr("class", "axis-label")
-            .attr("x", "73%")
+            .attr("x", "88%")
             .attr("dy", "1.5em")
             .text("Chronic Absence Rate")
         
@@ -68,7 +69,7 @@ function init() {
             .attr("class", "axis-label")
             .attr("writing-mode", "vertical-rl")
             .attr("dx", "1.2em")
-            .attr("y", "85%")
+            .attr("y", "84%")
             .text("Poverty Index");
 
     draw(); 
@@ -87,28 +88,31 @@ function draw() {
                                 .attr("class", "dot")
                                 .style("fill", function(d) {return color(cValue(d))})
                                 .attr("r", radius)
-                                .attr("cx", d => xScale(d.absence))
                                 .attr("cy", d => yScale(d.poverty))
-                                .call(enter => enter.attr("r", 10)
+                                .attr("cx", d => margin.bottom)
+                                .call(enter => enter.attr("r", radius)
                                                     .transition()
-                                                    .delay(d => 3 * d.absence)
+                                                    .delay(d => 50 * d.absence)
                                                     .duration(100)
                                                     .attr("cx", d => xScale(d.absence))
                                                     .transition()),
 
-                    update => update.call(update => update.attr("r", 10)
-                                                        .data(filteredData, d => d.school)
+                    update => update.call(update => update.transition()
+                                                        .duration(150)
+                                                        .attr("r", radius)
+                                                        //.data(filteredData, d => d.school)
                                                         .transition()
-                                                        .duration(100)
+                                                        .duration(150)
                                                         .transition()),
-                    exit => exit.call(exit.attr("r", 0)
-                                        .transition()
-                                        .attr("fill", "grey")
-                                        .delay(d => 5 * d.poverty)
+                    exit => exit.call(exit.transition()
                                         .duration(100)
-                                        .attr("cx", height)
-                                        .transition()
-                                        .attr("fill", "white")
+                                        .attr("r", 2)
+                                        .attr("stroke", "grey")
+                                        .delay(d => 50 * d.poverty)
+                                        .duration(100)
+                                        .attr("cx", width)
+                                        // .transition()
+                                        // .attr("fill", "white")
                                         .remove())
 
                 )
