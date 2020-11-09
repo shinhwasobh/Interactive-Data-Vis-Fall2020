@@ -2,7 +2,7 @@
 
 const width = window.innerWidth * 0.8,
     height = window.innerHeight * 0.8,
-    margin = {top: 50, bottom: 30, right: 40, left: 30},
+    margin = {top: 50, bottom: 30, right: 40, left: 50},
     radius = 6;
 
 let svg;
@@ -15,7 +15,7 @@ let state = {
 };
 let cValue = function(d) { return d.city;},
     color = d3.scaleOrdinal().domain(state.data, d => d.city)
-            .range(d3.schemeSet3);
+            .range(d3.schemeSet1);
 
 d3.csv("../data/ProjectData.csv", d3.autotype).then(rawData => {
     state.data = rawData;
@@ -25,13 +25,15 @@ d3.csv("../data/ProjectData.csv", d3.autotype).then(rawData => {
 debugger;
 function init() {
     xScale = d3.scaleLinear()
-            .domain(d3.extent(state.data, d => d.absence)).nice()
+            .domain([0, 70])
+            //.domain(d3.extent(state.data, d => d.absence)).nice()
             .range([margin.left, width - margin.right]);
+    //console.log(d3.extent(state.data, d => d.absence));
     yScale = d3.scaleLinear()
             .domain(d3.extent(state.data, d => d.poverty)).nice()
             .range([height - margin.bottom, margin.top]);
 
-    const xAxis = d3.axisTop(xScale);
+    const xAxis = d3.axisBottom(xScale);
     const yAxis = d3.axisLeft(yScale);
 
     const selectElement = d3.select("#dropdown")
@@ -49,7 +51,7 @@ function init() {
                 .append("svg")
                 .attr("width", width)
                 .attr("height", height)
-                .attr("transform", 'translate(0, ${height - margin.bottom})');
+                //.attr("transform", 'translate(${height - margin.bottom, 0})');
     
         svg.append("g")
             .attr("class", "axis x-axis")
@@ -57,6 +59,7 @@ function init() {
 
         svg.append("g")
             .attr("class", "axis y-axis")
+            .attr("transform", `translate(40, 0)`)
             .call(yAxis);
 
         svg.append("text")
