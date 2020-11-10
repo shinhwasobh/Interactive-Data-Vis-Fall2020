@@ -1,8 +1,8 @@
 'use strict';
 
 const width = window.innerWidth * 0.8,
-    height = window.innerHeight * 0.8,
-    margin = {top: 50, bottom: 30, right: 40, left: 50},
+    height = window.innerHeight * 0.7,
+    margin = {top: 10, bottom: 30, right: 40, left: 50},
     radius = 6;
 
 let svg;
@@ -55,6 +55,7 @@ function init() {
     
         svg.append("g")
             .attr("class", "axis x-axis")
+            .attr("transform", `translate(0,${height - margin.bottom})`)
             .call(xAxis);
 
         svg.append("g")
@@ -64,18 +65,56 @@ function init() {
 
         svg.append("text")
             .attr("class", "axis-label")
-            .attr("x", "88%")
-            .attr("dy", "1.5em")
+            .attr("x", "45%")
+            .attr("dy", "38em")
             .text("Chronic Absence Rate")
         
         svg.append("text")
             .attr("class", "axis-label")
             .attr("writing-mode", "vertical-rl")
-            .attr("dx", "1.2em")
-            .attr("y", "84%")
+            .attr("dx", "3.5em")
+            .attr("y", "45%")
             .text("Poverty Index");
-
+        
+        svg.append("circle").attr("cx", width - 270).attr("cy",450).attr("r", 7).style("fill", "crimson")
+        svg.append("text").attr("x", width - 250).attr("y", 450).text("MANHATTAN").style("font-size", "22px").attr("alignment-baseline","middle")
+        svg.append("circle").attr("cx", width - 270).attr("cy",480).attr("r", 7).style("fill", "royalblue")
+        svg.append("text").attr("x", width - 250).attr("y", 480).text("BRONX").style("font-size", "22px").attr("alignment-baseline","middle")
+        svg.append("circle").attr("cx", width - 270).attr("cy",510).attr("r", 7).style("fill", "mediumseagreen")
+        svg.append("text").attr("x", width - 250).attr("y", 510).text("BROOKLYN").style("font-size", "22px").attr("alignment-baseline","middle")
+        svg.append("circle").attr("cx", width - 270).attr("cy",540).attr("r", 7).style("fill", "mediumorchid")
+        svg.append("text").attr("x", width - 250).attr("y", 540).text("QUEENS").style("font-size", "22px").attr("alignment-baseline","middle")
+        svg.append("circle").attr("cx", width - 270).attr("cy",570).attr("r", 7).style("fill", "darkorange")
+        svg.append("text").attr("x", width - 250).attr("y", 570).text("STATEN ISLAND").style("font-size", "22px").attr("alignment-baseline","middle")
     draw(); 
+}
+
+const tooltip = d3.select("#d3container")
+.append("div")
+.style("opacity", 0)
+.attr("class", "tooltip")
+.style("background-color", "transparent")
+.style("border", "solid")
+.style("border-width", "1px")
+.style("border-radius", "3px")
+.style("padding", "5px");
+
+let mouseover = function(d) {
+tooltip.style("opacity",1)
+}
+
+let mousemove = function(d) {
+tooltip.html("<b>School Name:</b> " + d.school + 
+"<br><b>Chronic Absence (%):</b> " + d.absence + 
+"<br><b>Poverty Index Score:</b> " + d.poverty)
+.style("left", (d3.mouse(this) [0]+90) + "px")
+.style("top", (d3.mouse(this) [1]) + "px")
+}
+
+let mouseleave = function(d) {
+tooltip.transition()
+.duration(100)
+.style("opacity", 0)
 }
 
 function draw() {
@@ -93,6 +132,9 @@ function draw() {
                                 .attr("r", radius)
                                 .attr("cy", d => yScale(d.poverty))
                                 .attr("cx", d => margin.bottom)
+                                .on("mouseover", mouseover)
+                                .on("mousemove", mousemove)
+                                .on("mouseleave", mouseleave)
                                 .call(enter => enter.attr("r", radius)
                                                     .transition()
                                                     .delay(d => 50 * d.absence)
@@ -119,7 +161,7 @@ function draw() {
                                         .remove())
 
                 )
-                
+
 }
 
 
