@@ -127,8 +127,9 @@ function draw() {
         .attr('xlink:href', "https://c4.wallpaperflare.com/wallpaper/929/119/586/digital-art-skyscraper-building-new-york-city-wallpaper-preview.jpg")
         .attr("width", 400)
         .attr("x", 1050)
-        .attr("y", 30)
-        .attr("height", 520);
+        .attr("y", 15)
+        .attr("height", 520)
+        .attr("opacity", 0.6);
 
     const dot = svg.selectAll(".dot")
                 .data(filteredData, d => d.school)
