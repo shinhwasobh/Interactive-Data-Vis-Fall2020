@@ -17,6 +17,7 @@ let cValue = function(d) { return d.city;},
     color = d3.scaleOrdinal().domain(state.data, d => d.city)
             .range(d3.schemeSet1);
 
+
 d3.csv("../data/ProjectData.csv", d3.autotype).then(rawData => {
     state.data = rawData;
     console.log(state.data);
@@ -25,9 +26,9 @@ d3.csv("../data/ProjectData.csv", d3.autotype).then(rawData => {
 debugger;
 function init() {
     xScale = d3.scaleLinear()
-            .domain([0, 70])
+            .domain([0, 65])
             //.domain(d3.extent(state.data, d => d.absence)).nice()
-            .range([margin.left, width - margin.right]);
+            .range([margin.left, width - margin.right -30]);
     //console.log(d3.extent(state.data, d => d.absence));
     yScale = d3.scaleLinear()
             .domain(d3.extent(state.data, d => d.poverty)).nice()
@@ -76,16 +77,16 @@ function init() {
             .attr("y", "45%")
             .text("Poverty Index");
         
-        svg.append("circle").attr("cx", width - 270).attr("cy",450).attr("r", 7).style("fill", "crimson")
-        svg.append("text").attr("x", width - 250).attr("y", 450).text("MANHATTAN").style("font-size", "22px").attr("alignment-baseline","middle")
-        svg.append("circle").attr("cx", width - 270).attr("cy",480).attr("r", 7).style("fill", "royalblue")
-        svg.append("text").attr("x", width - 250).attr("y", 480).text("BRONX").style("font-size", "22px").attr("alignment-baseline","middle")
-        svg.append("circle").attr("cx", width - 270).attr("cy",510).attr("r", 7).style("fill", "mediumseagreen")
-        svg.append("text").attr("x", width - 250).attr("y", 510).text("BROOKLYN").style("font-size", "22px").attr("alignment-baseline","middle")
-        svg.append("circle").attr("cx", width - 270).attr("cy",540).attr("r", 7).style("fill", "mediumorchid")
-        svg.append("text").attr("x", width - 250).attr("y", 540).text("QUEENS").style("font-size", "22px").attr("alignment-baseline","middle")
-        svg.append("circle").attr("cx", width - 270).attr("cy",570).attr("r", 7).style("fill", "darkorange")
-        svg.append("text").attr("x", width - 250).attr("y", 570).text("STATEN ISLAND").style("font-size", "22px").attr("alignment-baseline","middle")
+        svg.append("circle").attr("cx", width - 360).attr("cy",450).attr("r", 7).style("fill", "crimson")
+        svg.append("text").attr("x", width - 340).attr("y", 450).text("MANHATTAN").style("font-size", "22px").attr("alignment-baseline","middle")
+        svg.append("circle").attr("cx", width - 360).attr("cy",480).attr("r", 7).style("fill", "royalblue")
+        svg.append("text").attr("x", width - 340).attr("y", 480).text("BRONX").style("font-size", "22px").attr("alignment-baseline","middle")
+        svg.append("circle").attr("cx", width - 360).attr("cy",510).attr("r", 7).style("fill", "mediumseagreen")
+        svg.append("text").attr("x", width - 340).attr("y", 510).text("BROOKLYN").style("font-size", "22px").attr("alignment-baseline","middle")
+        svg.append("circle").attr("cx", width - 360).attr("cy",540).attr("r", 7).style("fill", "mediumorchid")
+        svg.append("text").attr("x", width - 340).attr("y", 540).text("QUEENS").style("font-size", "22px").attr("alignment-baseline","middle")
+        svg.append("circle").attr("cx", width - 360).attr("cy",570).attr("r", 7).style("fill", "darkorange")
+        svg.append("text").attr("x", width - 340).attr("y", 570).text("STATEN ISLAND").style("font-size", "22px").attr("alignment-baseline","middle")
     draw(); 
 }
 
@@ -122,6 +123,12 @@ function draw() {
     if(state.selectedBorough !== "NYC All") {
         filteredData = state.data.filter(d => d.city === state.selectedBorough);
     }
+    svg.append('image')
+        .attr('xlink:href', "https://c4.wallpaperflare.com/wallpaper/929/119/586/digital-art-skyscraper-building-new-york-city-wallpaper-preview.jpg")
+        .attr("width", 400)
+        .attr("x", 1050)
+        .attr("y", 30)
+        .attr("height", 520);
 
     const dot = svg.selectAll(".dot")
                 .data(filteredData, d => d.school)
