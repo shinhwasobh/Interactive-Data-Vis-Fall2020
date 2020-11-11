@@ -87,6 +87,14 @@ function init() {
         svg.append("text").attr("x", width - 340).attr("y", 540).text("QUEENS").style("font-size", "22px").attr("alignment-baseline","middle")
         svg.append("circle").attr("cx", width - 360).attr("cy",570).attr("r", 7).style("fill", "darkorange")
         svg.append("text").attr("x", width - 340).attr("y", 570).text("STATEN ISLAND").style("font-size", "22px").attr("alignment-baseline","middle")
+        svg.append('image')
+        .attr('xlink:href', "https://c4.wallpaperflare.com/wallpaper/929/119/586/digital-art-skyscraper-building-new-york-city-wallpaper-preview.jpg")
+        .attr("width", 1385)
+        .attr("x", 5)
+        .attr("y", 27)
+        .attr("height", 555)
+        .attr("opacity", 0.6);
+       
     draw(); 
 }
 
@@ -123,13 +131,7 @@ function draw() {
     if(state.selectedBorough !== "NYC All") {
         filteredData = state.data.filter(d => d.city === state.selectedBorough);
     }
-    svg.append('image')
-        .attr('xlink:href', "https://c4.wallpaperflare.com/wallpaper/929/119/586/digital-art-skyscraper-building-new-york-city-wallpaper-preview.jpg")
-        .attr("width", 400)
-        .attr("x", 1050)
-        .attr("y", 15)
-        .attr("height", 520)
-        .attr("opacity", 0.6);
+    
 
     const dot = svg.selectAll(".dot")
                 .data(filteredData, d => d.school)
