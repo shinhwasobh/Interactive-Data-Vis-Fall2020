@@ -93,7 +93,7 @@ function init() {
         .attr("x", 5)
         .attr("y", 27)
         .attr("height", 555)
-        .attr("opacity", 0.6);
+        .attr("opacity", 0.5);
        
     draw(); 
 }
