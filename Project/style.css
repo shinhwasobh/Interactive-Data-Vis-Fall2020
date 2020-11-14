@@ -5,9 +5,5 @@ body {
 
 #tooltip {
     display: block;
-    height: 50px;
-}
-
-path.county {
-    stroke: pink;
+    height: 60px;
 }
