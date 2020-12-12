@@ -15,7 +15,7 @@ d3.csv("../data/Fruit.csv", d3.autoType).then
         .range([margin.left, width - margin.right])
         .paddingInner(paddingInner);
 
-    const yScale = d3.scaleLinear()
+    const yScale = d3.scaleBand()
         .domain([0, d3.max(data.map(d => d.Sales_qty))])
         .range([margin.bottom, height - margin.top]);
     

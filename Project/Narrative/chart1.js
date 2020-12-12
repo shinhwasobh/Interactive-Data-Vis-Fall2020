@@ -1,6 +1,6 @@
 export function chart1() {
     
-    d3.csv("../data/Final_data.csv", d3.autoType).then
+    d3.csv("../../data/Final_data.csv", d3.autoType).then
     (data => {
         console.log(data)
         console.log(data.map(d => d.city));
@@ -9,20 +9,20 @@ export function chart1() {
         const width = window.innerWidth / 2, 
             height = window.innerHeight / 2,
             paddingInner = 0.1,
-            margin = {top: 20, bottom: 40, left: 40, right: 40};
-            //colors = ["blue", "red", "yellow", "purple", "orange", "darkgreen", "pink", "lightgreen", "darkgreen", "beige", "yellow"];
+            margin = {top: 50, bottom: 50, left: 50, right: 20},
+            colors = ["darkgreen", "red", "yellow", "purple", "orange", "pink", "navy", "beige"];
     
         const xScale = d3.scaleLinear()
             .domain([0, d3.max(data.map(d => d.tfr))])
-            .range([margin.left, width - margin.right])
-            .paddingInner(paddingInner);
+            .range([margin.left, width - margin.right]);
     
-        const yScale = d3.scaleLinear()
+        const yScale = d3.scaleBand()
             .domain(data.map(d => d.city))
-            .range([height - margin.bottom, margin.top]);
+            .range([height - margin.bottom, margin.top])
+            .paddingInner(paddingInner);
 
         const yAxis = d3.axisLeft(yScale);
-        const xAxisBottom = dx.axisBottom(xScale).ticks(5);
+        const xAxisBottom = d3.axisBottom(xScale).ticks(5);
         const xAxisTop = d3.axisTop(xScale).ticks(5);
 
         const mycolor = d3.scaleOrdinal()
@@ -31,13 +31,13 @@ export function chart1() {
             
         const svg = d3.select("#d3-container-1")
             .append("svg")
-            .attr("width", width)
+            .attr("width", width)   
             .attr("height", height);
             
         const rect = svg.selectAll("rect")
             .data(data)
             .join("rect")
-            .attr("y", d => height - yScale(d.city))
+            .attr("y", d => yScale(d.city))
             .attr("x", d => margin.left)
             .attr("width", d => xScale(d.tfr))
             .attr("height", yScale.bandwidth())
@@ -48,9 +48,9 @@ export function chart1() {
             .data(data)
             .join("text")
             .attr("class", "label")
-            .text(d => d.city)
-            .attr("x", margin.left)
-            .attr("y", d => height - yScale(d.Sales_qty));
+            .text("Total Fertility Rate")
+            .attr("x", width - 550)
+            .attr("dy", "1.2em");
         
         svg
             .append("g")
@@ -65,8 +65,8 @@ export function chart1() {
             .call(xAxisBottom)
             .append("text")
             .attr("class", "axis-label")
-            .attr("x", width / 2)
-            .attr("dy", "3em")
+            .attr("x", width)
+            .attr("dy", "2em")
             .text("Total Fertility Rate");
       
         svg
