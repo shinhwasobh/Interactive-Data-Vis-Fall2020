@@ -47,12 +47,13 @@ header, body {
   }
   
   .section#three > .text {
-      grid-column: 2 / 4;
+      grid-column: 3 / 4;
   }
 
   .section#four > .graph {
       height: auto;
       width: auto;
+      
 
   }
   svg {

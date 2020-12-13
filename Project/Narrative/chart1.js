@@ -7,7 +7,7 @@ export function chart1() {
         debugger;
        
         const margin = {top: 50, bottom: 50, left: 70, right: 20},
-        colors = ["darkgreen", "red", "yellow", "purple", "orange", "pink", "navy", "beige"];
+        colors = ["darkgreen", "red", "yellow", "purple", "orange", "pink", "navy", "blue"];
 
 
         const width = window.innerWidth / 3, 
@@ -50,7 +50,7 @@ export function chart1() {
             .data(data)
             .join("text")
             .attr("class", "label")
-            .text("World Average Total Fertility Rate (2017 EST.)")
+            .text("8 Developed Countries Total Fertility Rate (2017 EST.)")
             .attr("x", width - 450)
             .attr("dy", "1.2em");
         
