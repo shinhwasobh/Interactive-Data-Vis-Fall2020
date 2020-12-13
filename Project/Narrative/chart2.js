@@ -6,14 +6,14 @@ export function chart2() {
         console.log(data.map(d => d.city));
         debugger;
         
-        const width = window.innerWidth / 2, 
-            height = window.innerHeight / 2,
+        const width = window.innerWidth / 3, 
+            height = window.innerHeight / 3,
             paddingInner = 0.1,
             margin = {top: 50, bottom: 50, left: 50, right: 20},
-            colors = ["darkgreen", "red", "yellow", "purple", "orange", "pink", "navy", "beige"];
+            colors = ["grey"];
     
         const xScale = d3.scaleLinear()
-            .domain([0, d3.max(data.map(d => d.unemp))])
+            .domain([0, d3.max(data.map(d => d.tfr))])
             .range([margin.left, width - margin.right]);
     
         const yScale = d3.scaleBand()
@@ -39,7 +39,7 @@ export function chart2() {
             .join("rect")
             .attr("y", d => yScale(d.city))
             .attr("x", d => margin.left)
-            .attr("width", d => xScale(d.unemp))
+            .attr("width", d => xScale(d.tfr))
             .attr("height", yScale.bandwidth())
             .style("fill", function(d){return mycolor(d.city);
             });
@@ -48,9 +48,9 @@ export function chart2() {
             .data(data)
             .join("text")
             .attr("class", "label")
-            .text(d => d.city)
-            .attr("x", margin.left)
-            .attr("y", d => height - yScale(d.unemp));
+            .text("South Korean Cities Total Fertility Rate (2018 EST.)")
+            .attr("x", width - 500)
+            .attr("dy", "1.2em");
         
         svg
             .append("g")
